@@ -5,25 +5,50 @@ import { classroom } from '../data/classroom.data';
 import { checkpoints } from '../data/checkpoints.data';
 
 export default function Home() {
-    const todayDate = new Date().toLocaleDateString('pt-BR');
+    const todayDate = new Date().getDay();
+    const todayDateFormatted = new Date().toLocaleDateString('pt-BR');
 
-    const startIndex = todayDate === 0 ? 0 : todayDate === 6 ? 4 : todayDate - 1;
+    const weekDays = [
+        "domingo",
+        "segunda",
+        "terça",
+        "quarta",
+        "quinta",
+        "sexta",
+        "sábado"
+    ];
+
+    // pega o nome de hoje (normalizado)
+    const todayName = weekDays[todayDate];
+
+    // função pra normalizar texto
+    const normalize = (text) =>
+        text
+            .toLowerCase()
+            .replace("-feira", "")
+            .trim();
+
+    // encontra o índice corretamente
+    const startIndexFound = classroom.findIndex(
+        (day) => normalize(day.name) === todayName
+    );
+
+    // fallback (caso não encontre)
+    const startIndex = startIndexFound !== -1 ? startIndexFound : 0;
 
     const orderedDays = [
         ...classroom.slice(startIndex),
         ...classroom.slice(0, startIndex)
     ];
-    
+
     // ordenar checkpoints por data e pegar os 3 mais próximos
-    const sortedCheckpoints = [...checkpoints]
-        .sort((a, b) => {
-            const [da, ma, ya] = a.date.split('/');
-            const [db, mb, yb] = b.date.split('/');
+    const sortedCheckpoints = [...checkpoints].sort((a, b) => {
+        const [da, ma, ya] = a.date.split('/');
+        const [db, mb, yb] = b.date.split('/');
 
-            return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
-        })
-        .slice(0, 3);
-
+        return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
+    }).slice(0, 3);
+    
     return (
         <View style={styles.container}>
 
@@ -87,7 +112,7 @@ export default function Home() {
                 <View style={styles.sprintCard}>
                     <View style={styles.sprintHeader}>
                         <Text style={styles.sprintTitle}>Próximas Entregas</Text>
-                        <Text style={styles.todayDate}>{todayDate}</Text>
+                        <Text style={styles.todayDate}>{todayDateFormatted}</Text>
                     </View>
                     {/* Laço de repetição para exibir as entregas percorrendo array do arquivo checkpoints.data.js */}
                     {sortedCheckpoints.map((item, index) => (
