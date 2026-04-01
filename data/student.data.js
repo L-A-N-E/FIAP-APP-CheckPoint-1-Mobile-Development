@@ -5,5 +5,6 @@ export const student = {
     course: "Engenharia de Software",
     semester: "3º Ano",
     period: "Matutino",
+    class: "3ESPH",
     email: "rm556259@fiap.com.br"
 };
