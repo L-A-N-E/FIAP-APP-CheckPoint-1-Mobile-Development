@@ -6,5 +6,6 @@ export const student = {
     semester: "3º Ano",
     period: "Matutino",
     class: "3ESPH",
-    email: "rm556259@fiap.com.br"
+    email: "rm556259@fiap.com.br",
+    unidade: 'FIAP Paulista'
 };

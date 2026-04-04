@@ -55,7 +55,7 @@ export default function Layout() {
                 <Tabs.Screen
                     name="canteen"
                     options={{
-                        title: 'Cantina',
+                        title: 'Kitchenet',
                         tabBarIcon: ({ color, focused }) => (
                             <IconWithIndicator name="restaurant-outline" color={color} focused={focused} />
                         ),
