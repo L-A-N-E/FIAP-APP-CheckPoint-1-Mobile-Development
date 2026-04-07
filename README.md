@@ -438,3 +438,5 @@ A próxima etapa do projeto foca em evoluir de um protótipo funcional para uma 
 * ⚙️ **Escalabilidade e arquitetura**: Introduzir organização em camadas (ex.: `services/`, `components/`), facilitando manutenção e evolução do sistema.
 
 * 🌙 **Modo Escuro e Claro**: Implementar opção de modo escuro e claro para melhorar a experiência do usuário em diferentes condições de iluminação/gostos.
+
+* 🧑 **Coleta de Biometria**: Cadastro atualmente simulado com **ImagePicker**. Como evolução, será implementada **captura via câmera**, com **validação de rosto** e **padronização do processo**, visando maior **segurança** e integração futura com **acesso por reconhecimento facial nas catracas**.
