@@ -21,13 +21,13 @@ import { bulletin } from '../data/bulletin.data';
 export default function Bulletin() {
 
     // Componente principal que renderiza o boletim.
-    // modalVisible: controla se o modal de detalhes está aberto.
+    // `modalVisible`: controla se o modal de detalhes está aberto.
     const [modalVisible, setModalVisible] = useState(false);
-    // detail: objeto com informações do modal (título, modo, colunas, linhas ou valores)
+    // `detail`: objeto com informações do modal (título, modo, colunas, linhas ou valores)
     const [detail, setDetail] = useState(null);
 
-    // Converte um array de objetos/valores (values) em linhas (arrays)
-    // usando as chaves em keys. Normaliza nomes em português/inglês
+    // Converte um array de objetos/valores (`values`) em linhas (arrays)
+    // usando as chaves em `keys`. Normaliza nomes em português/inglês
     // (atividade/activity, data/date, nota/score, max/maximum, quantidade/qty).
     // Retorna apenas linhas que contenham pelo menos um valor não-vazio.
     const parseRowsToCells = (values, keys) => {
@@ -58,7 +58,7 @@ export default function Bulletin() {
 
 
     // Retorna a configuração de colunas (labels) e chaves (campos) a serem
-    // exibidos no modal de detalhamento com base no title selecionado.
+    // exibidos no modal de detalhamento com base no `title` selecionado.
     // Suporta casos de "Faltas" (apenas data/quantidade) e "GS"/avalições.
     const getTableConfigByTitle = (title) => {
         if (title.includes('Faltas')) {
@@ -323,107 +323,96 @@ export default function Bulletin() {
 
             {/* Exibe detalhes ao clicar em uma célula */}
             <Modal visible={modalVisible} transparent animationType="fade">
-              <View style={styles.modalOverlay}>
-                <View style={styles.modal}>
-                                
-                  {/* Header */}
-                  <View style={styles.modalHeader}>
-                    <Text style={styles.modalTitle}>
-                      {detail?.title}
-                    </Text>
-                                
-                    <TouchableOpacity onPress={() => setModalVisible(false)}>
-                      <Ionicons name="close" size={20} color="#FF0C5C" />
-                    </TouchableOpacity>
-                  </View>
-                                
-                  {/* Subtitle */}
-                  <Text style={styles.modalSubtitle}>
-                    {detail?.mode === 'table'
-                      ? 'Detalhamento em tabela'
-                      : detail?.title?.includes('Faltas')
-                        ? 'Detalhamento de faltas'
-                        : 'Detalhamento das avaliações'}
-                  </Text>
-                    
-                  {/* Conteúdo */}
-                  {detail?.mode === 'table' ? (
-                    <View style={styles.detailTable}>
-                    
-                      {/* Header da tabela */}
-                      <View style={[styles.detailRow, styles.detailHeaderRow]}>
-                        {detail.columns.map((col) => (
-                          <Text
-                            key={col}
-                            style={[
-                              styles.detailCell,
-                              styles.detailHeaderCell,
-                              detail.columns.length > 2 &&
-                                col === detail.columns[0] &&
-                                styles.detailFirstColCell,
-                            ]}
-                          >
-                            {col}
-                          </Text>
-                        ))}
-                      </View>
-                    
-                      {/* Linhas */}
-                      {detail?.rows?.length > 0 ? (
-                        detail.rows.map((row, index) => (
-                          <View key={index} style={styles.detailRow}>
-                            {row.map((cell, cellIndex) => (
-                              <Text
-                                key={`${index}-${cellIndex}`}
-                                style={[
-                                  styles.detailCell,
-                                  detail.columns.length > 2 &&
-                                    cellIndex === 0 &&
-                                    styles.detailFirstColCell,
-                                ]}
-                              >
-                                {cell ?? '-'}
-                              </Text>
-                            ))}
-                          </View>
-                        ))
-                      ) : (
-                        <View style={styles.detailRow}>
-                          {detail.columns.map((_, index) => (
-                            <Text
-                              key={`empty-${index}`}
-                              style={[
-                                styles.detailCell,
-                                detail.columns.length > 2 &&
-                                  index === 0 &&
-                                  styles.detailFirstColCell,
-                              ]}
-                            >
-                              -
+
+                <View style={styles.modalOverlay}>
+
+                    <View style={styles.modal}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>
+                                {detail?.title}
                             </Text>
-                          ))}
+                            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                <Ionicons name="close" size={20} color="#FF0C5C" />
+                            </TouchableOpacity>
                         </View>
-                      )}
+
+                        <Text style={styles.modalSubtitle}>
+                            {detail?.mode === 'table'
+                                ? 'Detalhamento em tabela'
+                                : detail?.title?.includes('Faltas')
+                                    ? 'Detalhamento de faltas'
+                                    : 'Detalhamento das avaliações'}
+                        </Text>
+
+                        {detail?.mode === 'table' ? (
+                            <View style={styles.detailTable}>
+                                <View style={[styles.detailRow, styles.detailHeaderRow]}>
+                                    {detail.columns.map((col) => (
+                                        <Text
+                                            key={col}
+                                            style={[
+                                                styles.detailCell,
+                                                styles.detailHeaderCell,
+                                                detail.columns.length > 2 && col === detail.columns[0] && styles.detailFirstColCell,
+                                            ]}
+                                        >
+                                            {col}
+                                        </Text>
+                                    ))}
+                                </View>
+
+                                {detail?.rows?.length > 0 ? (
+                                    detail.rows.map((row, index) => (
+                                        <View key={index} style={styles.detailRow}>
+                                            {row.map((cell, cellIndex) => (
+                                                <Text
+                                                    key={`${index}-${cellIndex}`}
+                                                    style={[
+                                                        styles.detailCell,
+                                                        detail.columns.length > 2 && cellIndex === 0 && styles.detailFirstColCell,
+                                                    ]}
+                                                >
+                                                    {cell ?? '-'}
+                                                </Text>
+                                            ))}
+                                        </View>
+                                    ))
+                                ) : (
+                                    <View style={styles.detailRow}>
+                                        {detail.columns.map((_, index) => (
+                                            <Text
+                                                key={`empty-${index}`}
+                                                style={[
+                                                    styles.detailCell,
+                                                    detail.columns.length > 2 && index === 0 && styles.detailFirstColCell,
+                                                ]}
+                                            >
+                                                -
+                                            </Text>
+                                        ))}
+                                    </View>
+                                )}
+                            </View>
+                        ) : (
+                            detail?.values?.map((v, i) => (
+                                <View key={i} style={styles.modalItem}>
+                                    <Ionicons name="ellipse" size={6} color="#FF0C5C" />
+                                    <Text style={styles.modalText}>{v}</Text>
+                                </View>
+                            ))
+                        )}
+
+                        <TouchableOpacity
+                            style={styles.closeBtn}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Text style={styles.closeText}>Fechar</Text>
+                        </TouchableOpacity>
+
                     </View>
-                  ) : (
-                    detail?.values?.map((v, i) => (
-                      <View key={i} style={styles.modalItem}>
-                        <Ionicons name="ellipse" size={6} color="#FF0C5C" />
-                        <Text style={styles.modalText}>{v}</Text>
-                      </View>
-                    ))
-                  )}
-            
-                  {/* Botão fechar */}
-                  <TouchableOpacity
-                    style={styles.closeBtn}
-                    onPress={() => setModalVisible(false)}
-                  >
-                    <Text style={styles.closeText}>Fechar</Text>
-                  </TouchableOpacity>
-              
+
                 </View>
-              </View>
+
             </Modal>
 
         </View>
@@ -738,3 +727,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+O código do boletim
