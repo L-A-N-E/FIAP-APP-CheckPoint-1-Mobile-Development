@@ -727,5 +727,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
-O código do boletim
